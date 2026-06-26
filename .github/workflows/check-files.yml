@@ -20,16 +20,16 @@ jobs:
 
             const REQUIRED = {
               'assignment-2': [
-                'assignment-2/README.md'
+                'ANSWERS.md'
               ],
               'assignment-3': [
-                'assignment-3/README.md'
+                'ANSWERS.md'
               ],
               'assignment-4': [
-                'assignment-4/README.md'
+                'ANSWERS.md'
               ],
               'assignment-5': [
-                'assignment-5/README.md'
+                'ANSWERS.md'
               ]
             };
 
