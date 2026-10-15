@@ -1,84 +1,105 @@
-name: Check Required Assignment Files
+name: Check Unit 1 Submission
 
 on:
   pull_request:
     types: [opened, synchronize, reopened]
 
 jobs:
-  check-files:
+  check-submission:
     runs-on: ubuntu-latest
     permissions:
+      contents: read
       pull-requests: write
 
     steps:
-      - uses: actions/checkout@v4
-
       - uses: actions/github-script@v7
         with:
           script: |
-            const branch = context.payload.pull_request.head.ref;
+            const EXPECTED_BRANCH = 'unit-1-work';
+            const FILE = 'SUBMISSION.md';
+            const PLACEHOLDER = '_Your answer here._';
+            const SECTIONS = [
+              'Assignment 1: Course Setup & Software Installation',
+              'Assignment 2: GitHub Essentials',
+              'Assignment 3: Git Concepts',
+              'Assignment 4: Open Source Discovery'
+            ];
 
-            const REQUIRED = {
-              'assignment-2': [
-                'ANSWERS.md'
-              ],
-              'assignment-3': [
-                'ANSWERS.md'
-              ],
-              'assignment-4': [
-                'ANSWERS.md'
-              ],
-              'assignment-5': [
-                'ANSWERS.md'
-              ]
-            };
-
-            const required = REQUIRED[branch];
-            if (!required) {
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: context.issue.number,
-                body: `Branch \`${branch}\` is not a recognized assignment branch. Expected one of: ${Object.keys(REQUIRED).join(', ')}`
-              });
-              return;
+            const pr = context.payload.pull_request;
+            const notes = [];
+            if (pr.head.ref !== EXPECTED_BRANCH) {
+              notes.push(`⚠️ This Pull Request comes from branch \`${pr.head.ref}\`. Unit 1 work should be on \`${EXPECTED_BRANCH}\`.`);
             }
 
-            const filesResp = await github.rest.pulls.listFiles({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: context.issue.number,
-              per_page: 100
-            });
-            const presentFiles = new Set(filesResp.data.map(f => f.filename));
+            let text = null;
+            try {
+              const resp = await github.rest.repos.getContent({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                path: FILE,
+                ref: pr.head.sha
+              });
+              text = Buffer.from(resp.data.content, 'base64').toString('utf8');
+            } catch (e) {
+              text = null;
+            }
 
             let rows = '';
-            let allPresent = true;
-            for (const file of required) {
-              const present = presentFiles.has(file);
-              if (!present) allPresent = false;
-              rows += `| ${present ? '✅' : '❌'} | \`${file}\` |\n`;
+            let allDone = true;
+            if (text === null) {
+              allDone = false;
+              rows = `| ❌ | \`${FILE}\` is missing from the repository root |\n`;
+            } else {
+              const parts = text.split(/^## /m);
+              for (const title of SECTIONS) {
+                const body = parts.find(p => p.startsWith(title));
+                if (!body) {
+                  allDone = false;
+                  rows += `| ❌ | ${title}: section heading not found |\n`;
+                  continue;
+                }
+                const left = body.split(PLACEHOLDER).length - 1;
+                if (left > 0) allDone = false;
+                rows += left === 0
+                  ? `| ✅ | ${title} |\n`
+                  : `| ❌ | ${title}: ${left} placeholder${left === 1 ? '' : 's'} still unanswered |\n`;
+              }
             }
 
             const comments = await github.rest.issues.listComments({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              issue_number: context.issue.number
+              issue_number: pr.number
             });
-            for (const comment of comments.data) {
-              if (comment.user.login === 'github-actions[bot]' && comment.body.includes('Required Files')) {
+            for (const c of comments.data) {
+              if (c.user.login === 'github-actions[bot]' && c.body.includes('Unit 1 Submission Check')) {
                 await github.rest.issues.deleteComment({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
-                  comment_id: comment.id
+                  comment_id: c.id
                 });
               }
             }
 
-            const status = allPresent ? '✅ All required files present!' : '❌ Some required files are missing — check the table below.';
+            const status = allDone
+              ? '✅ All four assignment sections are filled in.'
+              : '❌ Some sections are incomplete. Sections you have not reached yet will show ❌ until you finish them.';
+            const body = [
+              '## Unit 1 Submission Check',
+              '',
+              ...notes,
+              notes.length ? '' : null,
+              status,
+              '',
+              '| Status | Section |',
+              '|--------|---------|',
+              rows,
+              '_Push another commit to re-run this check._'
+            ].filter(l => l !== null).join('\n');
+
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              issue_number: context.issue.number,
-              body: `## Required Files — \`${branch}\`\n\n${status}\n\n| Status | File |\n|--------|------|\n${rows}\n_Push another commit to re-run this check._`
+              issue_number: pr.number,
+              body
             });

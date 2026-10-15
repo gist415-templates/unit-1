@@ -1,27 +1,50 @@
 # GIST 415 — Unit 1: Onboarding & Open Source
 
-This is your **Unit 1 repository**. All Unit 1 assignments are submitted here — each on its own branch inside its own subfolder. Do not create a separate repo per assignment.
+This is your **Unit 1 repository**. You create it once, in Assignment 1, and use it for all four Unit 1 assignments. Do not create another repository for this unit.
 
-> **Assignment 1 (Piazza Introduction)** is submitted directly on Piazza — no files go in this repo.
+All of your Unit 1 answers go in **one file**: [`SUBMISSION.md`](SUBMISSION.md).
 
-## Assignment Submission Map
+## Setting Up This Repository (Assignment 1)
 
-| Assignment | Branch | Deliverables |
+1. On the template page, click **Use this template** → **Create a new repository**
+2. Set **Owner** to the class GitHub organization (the name is in the D2L course announcement), not your personal account
+3. Name it exactly `gist415-unit-1-YOUR_NETID` (for example `gist415-unit-1-jsmith`)
+4. Set visibility to **Private**
+5. Click **Create repository**, then clone it with GitHub Desktop (**File → Clone Repository**)
+
+## Assignments
+
+| Assignment | Section in `SUBMISSION.md` | Points |
 |---|---|---|
-| A2: GitHub Practice Hello World | `assignment-2` | `assignment-2/README.md` |
-| A3: Class Survey & Software Setup | `assignment-3` | `assignment-3/README.md` |
-| A4: GitHub Hello World | `assignment-4` | `assignment-4/README.md` |
-| A5: Open Source Discovery | `assignment-5` | `assignment-5/README.md` |
+| A1: Course Setup & Software Installation | Assignment 1 | 20 |
+| A2: GitHub Essentials — Your First Branch and Pull Request | Assignment 2 | 20 |
+| A3: Git Concepts and the Hello World Tutorial | Assignment 3 | 30 |
+| A4: Open Source Discovery | Assignment 4 | 30 |
+| **Unit 1 total** | | **100** |
 
-## How to Submit Each Assignment
+Full instructions for each assignment are in D2L.
 
-1. Create the branch (e.g., `assignment-2`) from `main`
-2. Place all your files inside the matching subfolder (e.g., `assignment-2/`)
-3. Commit and push to GitHub
-4. Open a Pull Request from your branch → `main`
-5. The automated checker will comment ✅/❌ on required files — fix anything flagged ❌
-6. Submit the Pull Request URL in the D2L submission folder
+## How to Submit
 
-## Automated File Checker
+You work on **one branch** and open **one Pull Request** for the whole unit.
 
-When you open a Pull Request, a GitHub Action runs automatically and posts a comment listing which required files are present (✅) and which are missing (❌). You must see all ✅ before submitting the PR URL to D2L.
+1. In Assignment 2, create a branch named `unit-1-work` from `main` and publish it
+2. Fill in each assignment's section of `SUBMISSION.md` as you complete it
+3. Commit and push to `unit-1-work` after each assignment
+4. In Assignment 2, open a Pull Request from `unit-1-work` → `main`, titled `Unit 1 Submission — YOUR_NETID`
+5. Keep adding commits for Assignments 3 and 4; the same Pull Request updates automatically
+6. When all four sections are complete, submit the Pull Request URL in the D2L Unit 1 submission folder
+
+**Do not merge the Pull Request.** Leave it open for instructor review.
+
+## Repository Contents
+
+```
+├── README.md        ← this overview
+├── SUBMISSION.md    ← where you add all assignment responses
+└── screenshots/     ← folder for unit images (if needed)
+```
+
+## Automated Checker
+
+When you open or update your Pull Request, a GitHub Action posts a comment that checks `SUBMISSION.md` and lists which assignment sections still contain unanswered placeholders. Make sure every section shows ✅ before you submit your Pull Request URL to D2L.
