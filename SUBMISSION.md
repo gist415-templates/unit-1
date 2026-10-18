@@ -2,7 +2,7 @@
 
 All of your Unit 1 responses go in this file. Replace every `_Your answer here._` with your own answer, and commit to your `unit-1-work` branch after each assignment.
 
-Screenshots, if you need any, go in the `screenshots/` folder.
+Screenshots go in the `screenshots/` folder.
 
 ---
 
@@ -75,7 +75,51 @@ _Your answer here._
 
 ---
 
-## Assignment 4: Open Source Discovery
+## Assignment 4: GitHub Branching Workflow
+
+Answer each question in your own words.
+
+**Q1:** What problem does branching solve? Describe a scenario where editing directly on the main branch could cause problems for a team.
+
+_Your answer here._
+
+**Q2:** What is the difference between a `commit` and a `push`?
+
+_Your answer here._
+
+**Q3:** You are working on a bug fix. Describe the full workflow from creating a branch to getting your fix into the main branch.
+
+_Your answer here._
+
+**Q4:** What is a "merge conflict" and when does it happen?
+
+_Your answer here._
+
+---
+
+## Assignment 5: GitHub Desktop
+
+Edit this section in a local text editor, not on GitHub.com.
+
+**Q1:** What is the difference between a local repository (on your computer) and a remote repository (on GitHub.com)?
+
+_Your answer here._
+
+**Q2:** Explain what `clone`, `commit`, `push`, and `pull` mean in your own words.
+
+_Your answer here._
+
+**Q3:** When would you use GitHub Desktop instead of editing files directly on GitHub.com?
+
+_Your answer here._
+
+**Screenshot:** GitHub Desktop showing your `unit-1-work` branch and your `SUBMISSION.md` change in the Changes panel, saved as `screenshots/screenshot-desktop.png`.
+
+![screenshot-desktop.png](screenshots/screenshot-desktop.png)
+
+---
+
+## Assignment 6: Open Source Discovery
 
 Answer each question in 3–5 sentences. Thoughtful and specific beats long and vague.
 
