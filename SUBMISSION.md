@@ -24,7 +24,6 @@ Screenshots go in the `screenshots/` folder.
 |---|---|
 | QGIS | _Your answer here._ |
 | Docker Desktop | _Your answer here._ |
-| Anaconda | _Your answer here._ |
 | GitHub Desktop | _Your answer here._ |
 
 **Output of `docker version` (paste the full output between the lines below):**
